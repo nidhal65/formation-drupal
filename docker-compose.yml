@@ -1,0 +1,35 @@
+version: "2"
+
+services:
+  web:
+    build:
+      context: .docker
+      dockerfile: nginx/Dockerfile
+    volumes:
+      - "${COMPOSE_PROJECT_DIR}:/var/www/html"
+      - "${COMPOSE_PROJECT_DIR}/.docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf"
+    links:
+      - php
+  php:
+    build:
+      context: .docker
+      dockerfile: php/Dockerfile
+    volumes:
+      - "${COMPOSE_PROJECT_DIR}:/var/www/html"
+      - "${COMPOSE_PROJECT_DIR}/.docker/php/php.ini:/usr/local/etc/php/conf.d/zzz-php.ini"
+      - "composer-cache:/composer/cache"
+    links:
+      - db
+  db:
+    image: mariadb:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=drupal
+      - MYSQL_DATABASE=drupal
+      - MYSQL_USER=drupal
+      - MYSQL_PASSWORD=drupal
+    volumes:
+      - "${COMPOSE_PROJECT_DIR}:/workdir"
+      - "mysql:/var/lib/mysql/"
+volumes:
+  composer-cache: ~
+  mysql: ~

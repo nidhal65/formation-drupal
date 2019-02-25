@@ -1,0 +1,22 @@
+version: "2"
+
+networks:
+  nginx-proxy:
+    external: true
+
+services:
+  web:
+    environment:
+      - VIRTUAL_HOST=d8.formation.local
+    networks:
+      - default
+      - nginx-proxy
+    ports:
+      - "${DOCKER_DEVBOX_PORT_PREFIX}80:80"
+  db:
+    ports:
+      - "${DOCKER_DEVBOX_PORT_PREFIX}06:3306"
+  php:
+    environment:
+      - XDEBUG_CONFIG=idekey=remote-debug remote_host=${HOST_IP}
+      - PHP_IDE_CONFIG=serverName=d8.gfi.sandbox.local

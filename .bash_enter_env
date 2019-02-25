@@ -1,0 +1,9 @@
+# Environment specific variables for bash_enter script
+# Rename to .bash_enter_env and set specific environment variables here
+
+autostash DOCKER_DEVBOX_ENV=dev
+autostash DOCKER_DEVBOX_ENV_LIST="rec dev" # Supported environments (symlinks)
+autostash DOCKER_DEVBOX_DOMAIN=test
+autostash DOCKER_DEVBOX_DOMAIN_PREFIX=d8_gfi_sandbox
+autostash DOCKER_DEVBOX_PORT_PREFIX=235
+#autostash COMPOSE_PROJECT_NAME=d8_gfi_sandbox
