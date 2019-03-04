@@ -1,0 +1,6 @@
+uuid: 1fddd541-fa55-4235-9c4d-262894f66876
+langcode: en
+status: true
+dependencies: {  }
+id: ann
+label: 'Annonce Immobilière'

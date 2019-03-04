@@ -1,0 +1,29 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - image.style.ive_
+    - image.style.ive_mobile
+    - image.style.ive_wide
+  theme:
+    - ive
+id: image_article
+label: 'Image article'
+image_style_mappings:
+  -
+    breakpoint_id: ive.wide
+    multiplier: 1x
+    image_mapping_type: image_style
+    image_mapping: ive_wide
+  -
+    breakpoint_id: ive.narrow
+    multiplier: 1x
+    image_mapping_type: image_style
+    image_mapping: ive_
+  -
+    breakpoint_id: ive.mobile
+    multiplier: 1x
+    image_mapping_type: image_style
+    image_mapping: ive_mobile
+breakpoint_group: ive
+fallback_image_style: ive_wide

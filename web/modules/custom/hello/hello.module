@@ -1,0 +1,133 @@
+<?php
+
+use Drupal\user\UserInterface;
+use Drupal\Core\Session\AccountInterface;
+
+/**
+ * Implements hook_cron().
+ */
+function hello_cron()
+{
+  $purge = \Drupal::config('hello.setting')->get('purge_days_number');
+  $purge_timestamp = strtotime('+' . $purge .' days');
+  $last_excution = \Drupal::config('hello.setting')->get('last_excution');
+  if($last_excution + $purge_timestamp <= time()) {
+    $database = \Drupal::database();
+    $database->truncate('hello_user_statistics')->execute();
+    \Drupal::configFactory()->getEditable('hello.setting')->set('last_excution', time())->save();
+  }
+}
+
+/**
+ * Implements hook_user_login().
+ */
+function hello_user_login(UserInterface $account)
+{
+  \Drupal::messenger()->addMessage(t('Welcome dear %name!',['%name' => $account->getDisplayName()]));
+
+  $uid = $account->id();
+  $database = \Drupal::database();
+  try {
+    $database->insert('hello_user_statistics')
+      ->fields([
+        'uid' => $uid,
+        'time' => time(),
+        'action' => 1
+      ])
+      ->execute();
+  } catch (Exception $e) {
+    \Drupal::messenger()->addMessage($e->getMessage());
+  }
+
+}
+
+/**
+ * Implements hook_user_logout().
+ */
+function hello_user_logout(AccountInterface $account)
+{
+  $uid = $account->id();
+  $database = \Drupal::database();
+  try {
+    $database->insert('hello_user_statistics')
+      ->fields([
+        'uid' => $uid,
+        'time' => time(),
+        'action' => 0
+      ])
+      ->execute();
+  } catch (Exception $e) {
+    \Drupal::messenger()->addMessage($e->getMessage());
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function hello_theme()
+{
+  $theme = [];
+  $theme['annonce'] = [
+    'render element' => 'elements',
+    'file' => 'annonce.page.inc',
+    'template' => 'annonce',
+  ];
+  $theme['annonce_content_add_list'] = [
+    'render element' => 'content',
+    'variables' => ['content' => NULL],
+    'file' => 'annonce.page.inc',
+  ];
+  return [
+    'annonce_content_add_list' => [
+      'render element' => 'content',
+      'variables' => ['content' => NULL],
+      'file' => 'annonce.page.inc',
+    ],
+    'hello' => [
+      'template' => 'hello',
+      'variables' => ['data' => NULL]
+    ]
+  ];
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function hello_form_user_admin_settings_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state)
+{
+  $user_statistics_roles = \Drupal::config('hello.setting')->get('user_statistics_roles');
+  $roles = user_role_names();
+  unset($roles['anonymous']);
+  unset($roles['authenticated']);
+  $form['activity_statistics'] = [
+    '#title' => t("Roles for which to collect activity statistics"),
+    '#type' => 'details',
+    '#weight' => -1
+  ];
+  $form['activity_statistics']['roles'] = [
+    '#type' => 'checkboxes',
+    '#options' => $roles,
+    '#default_value' => $user_statistics_roles
+    ];
+  $form['#submit'][] = 'hello_admin_user_setting_submit';
+}
+
+function hello_admin_user_setting_submit(&$form, \Drupal\Core\Form\FormStateInterface $form_state){
+  \Drupal::configFactory()->getEditable('hello.setting')->set('user_statistics_roles', $form_state->getValue('roles'))->save();
+}
+
+/**
+* Implements hook_theme_suggestions_HOOK().
+*/
+function hello_theme_suggestions_annonce(array $variables) {
+  $suggestions = [];
+  $entity = $variables['elements']['#annonce'];
+  $sanitized_view_mode = strtr($variables['elements']['#view_mode'], '.', '_');
+
+  $suggestions[] = 'annonce__' . $sanitized_view_mode;
+  $suggestions[] = 'annonce__' . $entity->bundle();
+  $suggestions[] = 'annonce__' . $entity->bundle() . '__' . $sanitized_view_mode;
+  $suggestions[] = 'annonce__' . $entity->id();
+  $suggestions[] = 'annonce__' . $entity->id() . '__' . $sanitized_view_mode;
+  return $suggestions;
+}

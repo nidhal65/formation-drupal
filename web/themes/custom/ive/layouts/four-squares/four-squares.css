@@ -1,0 +1,8 @@
+.flex-wrapper{
+  display: flex;
+  flex-wrap: wrap;
+}
+.flex-wrapper > div{
+  flex-basis: 50%;
+  max-width: 50%;
+}

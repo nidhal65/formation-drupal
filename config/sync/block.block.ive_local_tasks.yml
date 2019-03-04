@@ -1,0 +1,22 @@
+uuid: 5e21baf4-5c13-49b4-817c-7777913421ef
+langcode: en
+status: true
+dependencies:
+  theme:
+    - ive
+_core:
+  default_config_hash: X9I1OB0W3WlWtrK-CNcg6hNWwa8wficanpH8pYnDZDE
+id: ive_local_tasks
+theme: ive
+region: content
+weight: -6
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: Tabs
+  provider: core
+  label_display: '0'
+  primary: true
+  secondary: true
+visibility: {  }

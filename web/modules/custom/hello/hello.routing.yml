@@ -1,0 +1,43 @@
+hello.hello:
+  path: '/hello'
+  defaults:
+    _controller: '\Drupal\hello\Controller\HelloController::content'
+    _title: 'Hello'
+  requirements:
+    _access: 'TRUE'
+
+hello.list:
+  path: '/hello/list_noeud/{type}'
+  defaults:
+    _controller: '\Drupal\hello\Controller\HelloController::list_noeuds'
+    _title: 'Liste noeuds'
+  requirements:
+    _access: 'TRUE'
+
+hello.user_stat:
+  path: '/user/{user}/statistics'
+  defaults:
+    _controller: '\Drupal\hello\Controller\HelloController::user_statistics'
+    _title: 'Statistics user'
+  requirements:
+    _permission: 'administer hello'
+    user: '\d+'
+
+
+hello.calculatrice_form:
+  path: '/hello/form/calculatrice'
+  defaults:
+    _form: '\Drupal\hello\Form\CalculatriceForm'
+    _title: 'CalculatriceForm'
+  requirements:
+    _access_hello: '12'
+
+hello.admin_form:
+  path: '/admin/config/hello'
+  defaults:
+    _form: '\Drupal\hello\Form\HelloConfigForm'
+    _title: 'User statistics'
+  requirements:
+    _access: 'TRUE'
+
+

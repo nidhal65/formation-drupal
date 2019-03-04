@@ -1,0 +1,32 @@
+# Dashboard
+hello.page:
+  title: 'Hello'
+  description: 'Hello page.'
+  route_name: hello.hello
+  menu_name: main
+
+hello.connections:
+  route_name: hello.user_stat
+  base_route: entity.user.canonical
+  title: 'Connections'
+
+
+
+# Annonce routing definition
+
+entity.annonce.canonical:
+  route_name: entity.annonce.canonical
+  base_route: entity.annonce.canonical
+  title: 'View'
+
+entity.annonce.edit_form:
+  route_name: entity.annonce.edit_form
+  base_route: entity.annonce.canonical
+  title: 'Edit'
+
+entity.annonce.delete_form:
+  route_name:  entity.annonce.delete_form
+  base_route:  entity.annonce.canonical
+  title: Delete
+  weight: 10
+

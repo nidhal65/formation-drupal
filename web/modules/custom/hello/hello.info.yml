@@ -1,0 +1,6 @@
+name: Hello
+type: module
+description: Module hello
+core: 8.x
+package: Test
+configure: hello.admin_form

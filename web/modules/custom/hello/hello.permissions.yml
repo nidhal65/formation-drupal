@@ -1,0 +1,26 @@
+access hello:
+  title: 'Access hello'
+  restrict access: true
+
+administer hello:
+  title: 'Administer hello'
+  restrict access: true
+add annonce entities:
+  title: 'Create new Annonce entities'
+
+administer annonce entities:
+  title: 'Administer Annonce entities'
+  description: 'Allow to access the administration form to configure Annonce entities.'
+  restrict access: true
+
+delete annonce entities:
+  title: 'Delete Annonce entities'
+
+edit annonce entities:
+  title: 'Edit Annonce entities'
+
+view published annonce entities:
+  title: 'View published Annonce entities'
+
+view unpublished annonce entities:
+  title: 'View unpublished Annonce entities'

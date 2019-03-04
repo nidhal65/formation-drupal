@@ -1,0 +1,20 @@
+uuid: 57df9702-4fc8-4ac8-855e-05c78d830ff8
+langcode: en
+status: true
+dependencies:
+  theme:
+    - ive
+_core:
+  default_config_hash: 13GQpeITIJsp1kyPniXtWZfyFH87vb1xxJCHifL4UeE
+id: ive_local_actions
+theme: ive
+region: content
+weight: -4
+provider: null
+plugin: local_actions_block
+settings:
+  id: local_actions_block
+  label: 'Primary admin actions'
+  provider: core
+  label_display: '0'
+visibility: {  }

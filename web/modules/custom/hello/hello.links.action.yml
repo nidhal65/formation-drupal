@@ -1,0 +1,11 @@
+entity.annonce.add_form:
+  route_name: entity.annonce.add_page
+  title: 'Add Annonce'
+  appears_on:
+    - entity.annonce.collection
+entity.annonce_type.add_form:
+  route_name: entity.annonce_type.add_form
+  title: 'Add Annonce type'
+  appears_on:
+    - entity.annonce_type.collection
+
